@@ -1,16 +1,46 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar_url?: string;
+}
 
 interface AuthContextType {
   user: User | null;
-  session: Session | null;
   loading: boolean;
-  signInWithMagicLink: (email: string) => Promise<{ error: any }>;
-  signOut: () => Promise<void>;
+  signIn: (username: string, password: string) => Promise<{ error?: string }>;
+  signOut: () => void;
+  signUp: (username: string, password: string, name: string) => Promise<{ error?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Mock user accounts for testing
+const MOCK_ACCOUNTS = [
+  {
+    id: '1',
+    email: 'testuser@example.com',
+    password: 'password123',
+    name: 'Test User',
+    avatar_url: undefined
+  },
+  {
+    id: '2',
+    email: 'admin@test.com',
+    password: 'admin123',
+    name: 'Admin User',
+    avatar_url: undefined
+  },
+  {
+    id: '3',
+    email: 'demo@demo.com',
+    password: 'demo123',
+    name: 'Demo User',
+    avatar_url: undefined
+  }
+];
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -22,52 +52,91 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
+    // Check for existing session in localStorage
+    const savedUser = localStorage.getItem('cashkarma_user');
+    if (savedUser) {
+      try {
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+      } catch (error) {
+        console.error('Error parsing saved user:', error);
+        localStorage.removeItem('cashkarma_user');
       }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    }
+    setLoading(false);
   }, []);
 
-  const signInWithMagicLink = async (email: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: redirectUrl
+  const signIn = async (username: string, password: string): Promise<{ error?: string }> => {
+    try {
+      // Find user in mock accounts
+      const account = MOCK_ACCOUNTS.find(
+        acc => acc.email === username && acc.password === password
+      );
+
+      if (!account) {
+        return { error: 'Invalid username or password' };
       }
-    });
-    
-    return { error };
+
+      // Create user object without password
+      const userData: User = {
+        id: account.id,
+        email: account.email,
+        name: account.name,
+        avatar_url: account.avatar_url
+      };
+
+      // Save to localStorage
+      localStorage.setItem('cashkarma_user', JSON.stringify(userData));
+      setUser(userData);
+
+      return {};
+    } catch (error) {
+      console.error('Sign in error:', error);
+      return { error: 'An error occurred during sign in' };
+    }
   };
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
+  const signUp = async (username: string, password: string, name: string): Promise<{ error?: string }> => {
+    try {
+      // Check if user already exists
+      const existingUser = MOCK_ACCOUNTS.find(acc => acc.email === username);
+      if (existingUser) {
+        return { error: 'User already exists' };
+      }
+
+      // Create new user
+      const newUser: User = {
+        id: Date.now().toString(),
+        email: username,
+        name: name,
+        avatar_url: undefined
+      };
+
+      // Save to localStorage
+      localStorage.setItem('cashkarma_user', JSON.stringify(newUser));
+      setUser(newUser);
+
+      return {};
+    } catch (error) {
+      console.error('Sign up error:', error);
+      return { error: 'An error occurred during sign up' };
+    }
+  };
+
+  const signOut = () => {
+    localStorage.removeItem('cashkarma_user');
+    setUser(null);
   };
 
   const value = {
     user,
-    session,
     loading,
-    signInWithMagicLink,
+    signIn,
     signOut,
+    signUp,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

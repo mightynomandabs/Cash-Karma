@@ -14,6 +14,8 @@ import DailyGoals from "@/components/DailyGoals";
 import KarmaLegendsLeaderboard from "@/components/KarmaLegendsLeaderboard";
 import SocialSharing from "@/components/SocialSharing";
 import GoodVibesBoard from "@/components/GoodVibesBoard";
+import LogoutButton from "@/components/LogoutButton";
+import DropsErrorBoundary from "@/components/DropsErrorBoundary";
 
 const Index = () => {
   const { user } = useAuth();
@@ -47,6 +49,15 @@ const Index = () => {
         
         {user && (
           <div className="py-16 px-6">
+            {/* Header with logout button */}
+            <div className="max-w-6xl mx-auto mb-8 flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold">Welcome, {user.name}!</h1>
+                <p className="text-muted-foreground">Ready to spread some karma?</p>
+              </div>
+              <LogoutButton />
+            </div>
+            
             <div className="max-w-6xl mx-auto space-y-16">
               {/* Profile and Gamification Section */}
               <section>
@@ -115,7 +126,9 @@ const Index = () => {
                 
                 {/* Tab Content */}
                 <div>
-                  {renderTabContent()}
+                  <DropsErrorBoundary>
+                    {renderTabContent()}
+                  </DropsErrorBoundary>
                 </div>
               </section>
             </div>

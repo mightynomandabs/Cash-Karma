@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import MagicLinkStep from "./MagicLinkStep";
+import LoginStep from "./MagicLinkStep";
 import AvatarStep from "./AvatarStep";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
@@ -12,20 +12,20 @@ interface OnboardingModalProps {
   onClose: () => void;
 }
 
-type OnboardingStep = "magic-link" | "avatar" | "complete";
+type OnboardingStep = "login" | "avatar" | "complete";
 
 const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
-  const [step, setStep] = useState<OnboardingStep>("magic-link");
+  const [step, setStep] = useState<OnboardingStep>("login");
   const { user } = useAuth();
 
   // Auto-advance to avatar step when user logs in
   useEffect(() => {
-    if (user && step === "magic-link") {
+    if (user && step === "login") {
       setStep("avatar");
     }
   }, [user, step]);
 
-  const handleMagicLinkNext = () => {
+  const handleLoginNext = () => {
     setStep("avatar");
   };
 
@@ -46,7 +46,7 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
   };
 
   const resetModal = () => {
-    setStep("magic-link");
+    setStep("login");
   };
 
   const handleClose = () => {
@@ -56,7 +56,7 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
 
   const getStepNumber = () => {
     switch (step) {
-      case "magic-link":
+      case "login":
         return 1;
       case "avatar":
         return 2;
@@ -91,7 +91,7 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
           <div className="flex items-center gap-2">
             <div className={cn(
               "w-2 h-2 rounded-full transition-colors",
-              step === "magic-link" ? "bg-primary" : "bg-muted"
+              step === "login" ? "bg-primary" : "bg-muted"
             )} />
             <div className={cn(
               "w-2 h-2 rounded-full transition-colors",
@@ -106,7 +106,7 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
 
         {/* Content */}
         <div className="transition-all duration-300">
-          {step === "magic-link" && (
+          {step === "login" && (
             <div>
               {/* Progress Indicator */}
               <div className="text-center mb-6">
@@ -114,8 +114,8 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
                   step 1/3
                 </span>
               </div>
-              <MagicLinkStep 
-                onNext={handleMagicLinkNext}
+              <LoginStep 
+                onNext={handleLoginNext}
                 onClose={handleClose}
               />
             </div>

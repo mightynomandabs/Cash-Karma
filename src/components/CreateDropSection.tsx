@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { GamificationService, XP_REWARDS } from "@/lib/gamification";
 import { LeaderboardService } from "@/lib/leaderboard";
-import { paymentService } from "@/lib/payment";
+import { mockPaymentService } from "@/lib/payment";
 
 interface CreateDropSectionProps {
   onDropCreated: () => void;
@@ -85,22 +85,12 @@ const CreateDropSection = ({ onDropCreated }: CreateDropSectionProps) => {
       
       const finalMessage = message.trim() || getRandomSuggestion();
       
-      // Check if Razorpay key is configured
-      const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-      const isDemoMode = !razorpayKey || razorpayKey.includes('test') || razorpayKey.includes('demo');
-      
-      if (!razorpayKey) {
-        console.error('Razorpay key not configured');
-        toast.error("Payment system not configured. Please contact support.");
-        return;
-      }
-
-      console.log('Payment mode:', isDemoMode ? 'DEMO' : 'LIVE');
+      console.log('Using mock payment service for testing');
 
       console.log('Creating drop with payment service...');
       
-      // Create drop and payment session using PaymentService
-      const { drop, paymentSession } = await paymentService.createDrop({
+      // Create drop and payment session using MockPaymentService
+      const { drop, paymentSession } = await mockPaymentService.createDrop({
         amount: selectedAmount,
         message: finalMessage,
         display_name: userProfile?.display_name,
@@ -109,25 +99,20 @@ const CreateDropSection = ({ onDropCreated }: CreateDropSectionProps) => {
 
       console.log('Drop and payment session created:', { dropId: drop.id, sessionId: paymentSession.id });
 
-      if (isDemoMode) {
-        // Demo mode - simulate payment success
-        console.log('Running in demo mode - simulating payment success');
-        
-        // Simulate payment processing delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // Update drop status to paid
-        await supabase
-          .from('drops')
-          .update({ status: 'paid' })
-          .eq('id', drop.id);
+      // Initiate mock payment
+      console.log('Initiating mock payment...');
+      await mockPaymentService.initiatePayment(drop, paymentSession);
 
+      // Listen for payment result
+      const handlePaymentSuccess = (event: CustomEvent) => {
+        const { paymentId, orderId, amount } = event.detail;
+        
         // Award XP for sending drop
-        await GamificationService.awardXP(user.id, XP_REWARDS.SEND_DROP, 'Sent karma drop');
+        GamificationService.awardXP(user.id, XP_REWARDS.SEND_DROP, 'Sent karma drop');
 
         // Check if this is the first drop
         if (isFirstTimeUser) {
-          await GamificationService.awardXP(user.id, XP_REWARDS.FIRST_DROP, 'First karma drop');
+          GamificationService.awardXP(user.id, XP_REWARDS.FIRST_DROP, 'First karma drop');
           toast.success("🎉 First Drop Bonus!", {
             description: `+${XP_REWARDS.FIRST_DROP} XP for your first karma drop!`,
             duration: 4000,
@@ -136,7 +121,7 @@ const CreateDropSection = ({ onDropCreated }: CreateDropSectionProps) => {
 
         // Check for big drop bonus
         if (selectedAmount >= 100) {
-          await GamificationService.awardXP(user.id, 50, 'Big drop bonus');
+          GamificationService.awardXP(user.id, 50, 'Big drop bonus');
           toast.success("💰 Big Drop Bonus!", {
             description: `+50 XP for sending ₹${selectedAmount}!`,
             duration: 3000,
@@ -144,25 +129,41 @@ const CreateDropSection = ({ onDropCreated }: CreateDropSectionProps) => {
         }
 
         // Check achievements
-        await GamificationService.checkAchievements(user.id);
+        GamificationService.checkAchievements(user.id);
 
         // Update leaderboard
-        await LeaderboardService.updateUserLeaderboard(user.id);
+        LeaderboardService.updateUserLeaderboard(user.id);
 
-        toast.success("Karma Sent! 🎉", {
-          description: `₹${selectedAmount} sent successfully! +${XP_REWARDS.SEND_DROP} XP earned`,
-          duration: 3000,
+        toast.success("Payment Successful! 🎉", {
+          description: `₹${amount} sent successfully! Payment ID: ${paymentId}`,
+          duration: 5000,
         });
-      } else {
-        // Live mode - initiate Razorpay payment
-        console.log('Initiating Razorpay payment...');
-        await paymentService.initiatePayment(drop, paymentSession);
 
-        toast.success("Payment initiated! 🎉", {
-          description: `₹${selectedAmount} payment processing...`,
-          duration: 3000,
+        // Remove event listener
+        window.removeEventListener('payment-success', handlePaymentSuccess);
+        window.removeEventListener('payment-failed', handlePaymentFailure);
+      };
+
+      const handlePaymentFailure = (event: CustomEvent) => {
+        const { error } = event.detail;
+        toast.error("Payment Failed", {
+          description: error || "Payment could not be processed",
+          duration: 5000,
         });
-      }
+
+        // Remove event listener
+        window.removeEventListener('payment-success', handlePaymentSuccess);
+        window.removeEventListener('payment-failed', handlePaymentFailure);
+      };
+
+      // Add event listeners
+      window.addEventListener('payment-success', handlePaymentSuccess);
+      window.addEventListener('payment-failed', handlePaymentFailure);
+
+      toast.success("Payment Processing! 🎉", {
+        description: `₹${selectedAmount} payment processing...`,
+        duration: 3000,
+      });
 
       // Reset form
       setSelectedAmount(null);
