@@ -203,6 +203,63 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Policy Links */}
+        <div className="flex justify-center mb-8">
+          <nav className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
+            <a 
+              href="https://merchant.razorpay.com/policy/PqfBTEACVz2o95/terms" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors duration-200"
+            >
+              Terms of Service
+            </a>
+            <span className="text-muted-foreground/50">•</span>
+            <a 
+              href="https://merchant.razorpay.com/policy/PqfBTEACVz2o95/privacy" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors duration-200"
+            >
+              Privacy Policy
+            </a>
+            <span className="text-muted-foreground/50">•</span>
+            <a 
+              href="https://merchant.razorpay.com/policy/PqfBTEACVz2o95/refund" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors duration-200"
+            >
+              Refund Policy
+            </a>
+            <span className="text-muted-foreground/50">•</span>
+            <a 
+              href="https://merchant.razorpay.com/policy/PqfBTEACVz2o95/shipping" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors duration-200"
+            >
+              Shipping Policy
+            </a>
+          </nav>
+        </div>
+        
+        {/* Policy Links Note */}
+        <div className="text-center mb-8">
+          <p className="text-xs text-muted-foreground/60">
+            If the above links don't work, please visit{' '}
+            <a 
+              href="https://razorpay.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              razorpay.com
+            </a>
+            {' '}for our policies.
+          </p>
+        </div>
+
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-border/20">
           <div className="text-sm text-muted-foreground">
