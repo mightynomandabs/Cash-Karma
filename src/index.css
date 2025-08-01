@@ -1,0 +1,453 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Cash Karma Design System - Modern, exclusive, minimal with neon accents */
+
+@layer base {
+  :root {
+    /* Cash Karma Brand Colors - Dark Navy Background */
+    --background: 220 40% 8%;
+    --foreground: 60 100% 95%;
+
+    /* Card system with navy tints */
+    --card: 220 35% 12%;
+    --card-foreground: 60 100% 95%;
+
+    /* Popover system */
+    --popover: 220 40% 10%;
+    --popover-foreground: 60 100% 95%;
+
+    /* Primary - Vibrant Green */
+    --primary: 135 80% 50%;
+    --primary-foreground: 220 40% 8%;
+
+    /* Secondary - Yellow/Gold */
+    --secondary: 48 100% 60%;
+    --secondary-foreground: 220 40% 8%;
+
+    /* Muted tones with navy base */
+    --muted: 220 30% 18%;
+    --muted-foreground: 220 15% 65%;
+
+    /* Accent - Hot Pink */
+    --accent: 320 100% 65%;
+    --accent-foreground: 220 40% 8%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 60 100% 95%;
+
+    /* Borders and inputs with navy tints */
+    --border: 220 25% 25%;
+    --input: 220 30% 15%;
+    --ring: 135 80% 50%;
+
+    /* Brand color palette */
+    --brand-green: 135 80% 50%;
+    --brand-yellow: 48 100% 60%;
+    --brand-pink: 320 100% 65%;
+    --brand-navy: 220 40% 8%;
+    
+    /* Enhanced neon variants */
+    --neon-green: 135 100% 60%;
+    --neon-yellow: 48 100% 70%;
+    --neon-pink: 320 100% 75%;
+    --primary-glow: 135 100% 70%;
+    
+    /* Cash Karma gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(135 80% 50%), hsl(135 100% 70%));
+    --gradient-accent: linear-gradient(135deg, hsl(320 100% 65%), hsl(48 100% 60%));
+    --gradient-brand: linear-gradient(135deg, hsl(135 80% 50%), hsl(48 100% 60%), hsl(320 100% 65%));
+    --gradient-subtle: linear-gradient(180deg, hsl(220 40% 8%), hsl(220 35% 12%));
+    
+    /* Enhanced shadows with brand colors */
+    --shadow-glow: 0 0 40px hsl(135 80% 50% / 0.3);
+    --shadow-pink: 0 0 30px hsl(320 100% 65% / 0.2);
+    --shadow-yellow: 0 0 30px hsl(48 100% 60% / 0.2);
+    --shadow-soft: 0 10px 40px hsl(220 40% 0% / 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+@layer components {
+  /* Typography */
+  .text-hero {
+    @apply text-5xl md:text-7xl font-bold leading-tight tracking-tight lowercase;
+    line-height: 1.1;
+    padding-bottom: 0.1em;
+  }
+  
+  .text-subhero {
+    @apply text-xl md:text-2xl font-medium tracking-wide lowercase;
+  }
+  
+  .text-accent {
+    @apply text-sm font-medium tracking-wider uppercase;
+  }
+
+  /* Buttons with Cash Karma brand colors */
+  .btn-neon {
+    @apply px-8 py-4 rounded-full font-semibold text-lg text-brand-navy;
+    @apply transition-all duration-300 hover:scale-105;
+    @apply border border-brand-green/20;
+    background: var(--gradient-primary);
+    box-shadow: 0 0 30px hsl(var(--brand-green) / 0.4);
+  }
+  
+  .btn-neon:hover {
+    box-shadow: 0 0 40px hsl(var(--brand-green) / 0.6);
+  }
+  
+  .btn-pill {
+    @apply bg-brand-yellow/20 text-brand-yellow px-6 py-3 rounded-full font-medium;
+    @apply transition-all duration-200 hover:bg-brand-yellow/30 hover:scale-105;
+    @apply border border-brand-yellow/30;
+  }
+  
+  .btn-karma {
+    @apply bg-muted/50 text-foreground px-4 py-2 rounded-full font-medium text-sm;
+    @apply transition-all duration-200 hover:bg-brand-pink hover:text-brand-navy hover:shadow-pink;
+    @apply border border-muted/30 hover:border-brand-pink/50;
+  }
+
+  /* Cards */
+  .card-glow {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6;
+    @apply shadow-soft hover:shadow-glow transition-all duration-300;
+  }
+  
+  .card-feature {
+    @apply bg-card/60 backdrop-blur-sm border border-border/30 rounded-xl p-6;
+    @apply hover:border-primary/30 hover:bg-card/80 transition-all duration-300;
+  }
+
+  /* Glassmorphic effects */
+  .glass {
+    @apply bg-card/20 backdrop-blur-xl border border-border/20;
+  }
+
+  /* Utility classes */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .bg-gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+
+  .bg-gradient-neon {
+    background: var(--gradient-neon);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Animations */
+  .animate-pulse-soft {
+    animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  to {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+  }
+}
+
+/* Custom animations */
+@keyframes burst {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(236, 72, 153, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 30px rgba(236, 72, 153, 0.4);
+  }
+}
+
+@keyframes neon-border {
+  0%, 100% {
+    border-color: rgba(236, 72, 153, 0.5);
+    box-shadow: 0 0 5px rgba(236, 72, 153, 0.3);
+  }
+  50% {
+    border-color: rgba(236, 72, 153, 0.8);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.6), 0 0 25px rgba(236, 72, 153, 0.4);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+/* Animation classes */
+.animate-burst {
+  animation: burst 0.6s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-neon-border {
+  animation: neon-border 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+/* Custom gradient backgrounds */
+.bg-gradient-subtle {
+  background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+}
+
+.bg-gradient-hero {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e293b 100%);
+}
+
+/* Custom text sizes */
+.text-hero {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1.1;
+}
+
+.text-subhero {
+  font-size: clamp(1.25rem, 4vw, 2rem);
+  line-height: 1.3;
+}
+
+.text-accent {
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  line-height: 1.4;
+}
+
+/* Card feature styles */
+.card-feature {
+  @apply p-6 rounded-xl border border-border/30 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-border/50 hover:bg-card/70 hover:shadow-lg;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+/* Reaction burst effect */
+.reaction-burst {
+  position: relative;
+  overflow: hidden;
+}
+
+.reaction-burst::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.reaction-burst:active::before {
+  width: 200px;
+  height: 200px;
+  animation: burst 0.6s ease-out forwards;
+}
+
+/* Leaderboard rank animations */
+.rank-1 {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.rank-2 {
+  animation: neon-border 2s ease-in-out infinite;
+}
+
+.rank-3 {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Social sharing animations */
+.share-card {
+  transition: all 0.3s ease;
+}
+
+.share-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Good vibes board animations */
+.story-card {
+  transition: all 0.3s ease;
+}
+
+.story-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.featured-story {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .text-hero {
+    font-size: clamp(2rem, 6vw, 3rem);
+  }
+  
+  .text-subhero {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+  }
+  
+  .card-feature {
+    @apply p-4;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .card-feature {
+  @apply bg-card/30 hover:bg-card/50;
+}
+
+.dark .bg-gradient-subtle {
+  background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 70%);
+}
