@@ -2,10 +2,20 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Wallet } from "lucide-react";
+import Navigation from "@/components/Navigation";
+import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import BrandSection from "@/components/BrandSection";
-import FeaturesSection from "@/components/FeaturesSection";
+import Testimonials from "@/components/Testimonials";
+import Team from "@/components/Team";
 import Footer from "@/components/Footer";
+import StickyCTA from "@/components/StickyCTA";
+
+import FAQSection from "@/components/FAQSection";
+import ContactSection from "@/components/ContactSection";
+import LiveChatWidget from "@/components/LiveChatWidget";
+import RecentDropsTicker from "@/components/RecentDropsTicker";
+import BadgeShowcase from "@/components/BadgeShowcase";
 import CreateDropSection from "@/components/CreateDropSection";
 import RecentDropsFeed from "@/components/RecentDropsFeed";
 import NotificationSystem from "@/components/NotificationSystem";
@@ -16,6 +26,7 @@ import SocialSharing from "@/components/SocialSharing";
 import GoodVibesBoard from "@/components/GoodVibesBoard";
 import LogoutButton from "@/components/LogoutButton";
 import DropsErrorBoundary from "@/components/DropsErrorBoundary";
+import AnimatedSection from "@/components/AnimatedSection";
 
 const Index = () => {
   const { user } = useAuth();
@@ -45,106 +56,154 @@ const Index = () => {
   return (
     <NotificationSystem>
       <div className="min-h-screen bg-background flex flex-col">
-        <HeroSection />
+        <Navigation />
+        <Header />
+        
+        {/* Home Section */}
+        <div id="home">
+          <HeroSection />
+        </div>
         
         {user && (
           <div className="py-16 px-6">
             {/* Header with logout button */}
-            <div className="max-w-6xl mx-auto mb-8 flex justify-between items-center">
-              <div>
-                <h1 className="text-2xl font-bold">Welcome, {user.name}!</h1>
-                <p className="text-muted-foreground">Ready to spread some karma?</p>
+            <AnimatedSection delay={200}>
+              <div className="max-w-6xl mx-auto mb-8 flex justify-between items-center">
+                <div>
+                  <h1 className="text-2xl font-bold text-text-primary hover:text-primary-gold transition-colors duration-300">Welcome, {user.name}!</h1>
+                  <p className="text-text-secondary hover:text-text-primary transition-colors duration-300">Ready to spread some karma?</p>
+                </div>
+                <LogoutButton />
               </div>
-              <LogoutButton />
-            </div>
+            </AnimatedSection>
             
             <div className="max-w-6xl mx-auto space-y-16">
               {/* Profile and Gamification Section */}
-              <section>
-                <div className="grid md:grid-cols-2 gap-8">
-                  <ProfileCard />
-                  <DailyGoals />
-                </div>
-              </section>
+              <AnimatedSection delay={400}>
+                <section>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <ProfileCard />
+                    <DailyGoals />
+                  </div>
+                </section>
+              </AnimatedSection>
 
               {/* Create Drop Section */}
-              <section>
-                <CreateDropSection onDropCreated={handleDropCreated} />
-              </section>
+              <AnimatedSection delay={600}>
+                <section>
+                  <CreateDropSection onDropCreated={handleDropCreated} />
+                </section>
+              </AnimatedSection>
               
               {/* Navigation Tabs */}
-              <section>
-                <div className="flex flex-wrap gap-2 justify-center mb-8">
-                  <button
-                    onClick={() => setActiveTab('feed')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                      activeTab === 'feed'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    Recent Drops
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('leaderboard')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                      activeTab === 'leaderboard'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    Karma Legends
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('social')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                      activeTab === 'social'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    Share Karma
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('community')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                      activeTab === 'community'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    Good Vibes
-                  </button>
-                  <button
-                    onClick={() => navigate('/wallet')}
-                    className="px-4 py-2 rounded-lg font-medium transition-colors bg-green-600 text-white hover:bg-green-700 flex items-center gap-2"
-                  >
-                    <Wallet className="w-4 h-4" />
-                    Wallet
-                  </button>
-                </div>
-                
-                {/* Tab Content */}
-                <div>
-                  <DropsErrorBoundary>
-                    {renderTabContent()}
-                  </DropsErrorBoundary>
-                </div>
-              </section>
+              <AnimatedSection delay={800}>
+                <section>
+                  <div className="flex flex-wrap gap-2 justify-center mb-8">
+                    <button
+                      onClick={() => setActiveTab('feed')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation ${
+                        activeTab === 'feed'
+                          ? 'bg-primary-gold text-text-primary shadow-soft'
+                          : 'bg-surface-gray-100 text-text-secondary hover:text-text-primary hover:bg-surface-gray-200'
+                      }`}
+                    >
+                      Recent Drops
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('leaderboard')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation ${
+                        activeTab === 'leaderboard'
+                          ? 'bg-primary-gold text-text-primary shadow-soft'
+                          : 'bg-surface-gray-100 text-text-secondary hover:text-text-primary hover:bg-surface-gray-200'
+                      }`}
+                    >
+                      Karma Legends
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('social')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation ${
+                        activeTab === 'social'
+                          ? 'bg-primary-gold text-text-primary shadow-soft'
+                          : 'bg-surface-gray-100 text-text-secondary hover:text-text-primary hover:bg-surface-gray-200'
+                      }`}
+                    >
+                      Share Karma
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('community')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation ${
+                        activeTab === 'community'
+                          ? 'bg-primary-gold text-text-primary shadow-soft'
+                          : 'bg-surface-gray-100 text-text-secondary hover:text-text-primary hover:bg-surface-gray-200'
+                      }`}
+                    >
+                      Good Vibes
+                    </button>
+                    <button
+                      onClick={() => navigate('/wallet')}
+                      className="px-4 py-2 rounded-lg font-medium transition-all duration-300 bg-accent-purple text-surface-white hover:bg-accent-purple/90 hover:scale-105 active:scale-95 flex items-center gap-2 touch-manipulation shadow-soft hover:shadow-lg"
+                    >
+                      <Wallet className="w-4 h-4" />
+                      Wallet
+                    </button>
+                  </div>
+                  
+                  {/* Tab Content */}
+                  <div>
+                    <DropsErrorBoundary>
+                      {renderTabContent()}
+                    </DropsErrorBoundary>
+                  </div>
+                </section>
+              </AnimatedSection>
             </div>
           </div>
         )}
         
         {!user && (
           <>
-            <BrandSection />
-            <FeaturesSection />
+            {/* About Section */}
+            <div id="about">
+              <BrandSection />
+            </div>
+            
+            {/* Team Section */}
+            <div id="team">
+              <Team />
+            </div>
+            
+            {/* Testimonials Section */}
+            <Testimonials />
+            
+            {/* FAQ Section */}
+            <div id="faq">
+              <FAQSection />
+            </div>
+            
+            {/* Contact Section */}
+            <div id="contact">
+              <ContactSection />
+            </div>
           </>
         )}
         
         <div className="pt-16">
           <Footer />
         </div>
+
+        {/* Sticky CTA for non-logged-in users only */}
+        {!user && <StickyCTA />}
+        
+        {/* Interactive Components */}
+        {!user && <LiveChatWidget />}
+        {!user && <RecentDropsTicker />}
+        
+        {/* Badge Showcase for logged-in users */}
+        {user && (
+          <div id="achievements">
+            <BadgeShowcase />
+          </div>
+        )}
       </div>
     </NotificationSystem>
   );

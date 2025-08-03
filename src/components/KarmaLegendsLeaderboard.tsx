@@ -123,11 +123,11 @@ const KarmaLegendsLeaderboard = () => {
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Trophy className="w-5 h-5 text-yellow-400" />;
+        return <Trophy className="w-5 h-5 text-brand-yellow" />;
       case 2:
-        return <Medal className="w-5 h-5 text-gray-400" />;
+        return <Medal className="w-5 h-5 text-brand-pink" />;
       case 3:
-        return <Star className="w-5 h-5 text-orange-400" />;
+        return <Star className="w-5 h-5 text-brand-green" />;
       default:
         return <span className="text-sm font-bold text-muted-foreground">#{rank}</span>;
     }
@@ -136,11 +136,11 @@ const KarmaLegendsLeaderboard = () => {
   const getRankBorderClass = (rank: number) => {
     switch (rank) {
       case 1:
-        return "border-yellow-400/50 shadow-yellow-400/20 animate-pulse";
+        return "border-brand-yellow/50 shadow-brand-yellow/20 animate-pulse";
       case 2:
-        return "border-gray-400/50 shadow-gray-400/20";
+        return "border-brand-pink/50 shadow-brand-pink/20";
       case 3:
-        return "border-orange-400/50 shadow-orange-400/20";
+        return "border-brand-green/50 shadow-brand-green/20";
       default:
         return "border-border/30";
     }

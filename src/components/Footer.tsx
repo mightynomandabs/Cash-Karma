@@ -1,281 +1,186 @@
-import { Heart, Shield, Lock, Mail, MapPin, Phone, ExternalLink, Twitter, Instagram, Linkedin, Github, Facebook } from "lucide-react";
+import { Mail, Heart, Sparkles, Twitter, Instagram, Linkedin, Github, Phone, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('support@cashkarma.app');
+    // You could add a toast notification here
+  };
+
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText('+91 98765 43210');
+    // You could add a toast notification here
+  };
+
   return (
-    <footer className="border-t border-border/20 bg-background/80 backdrop-blur-sm w-full mt-auto relative z-10">
+    <footer className="bg-surface-gray-100/50 backdrop-blur-sm border-t border-border/20">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        {/* Main Footer Content */}
-        <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-8 mb-12">
-          {/* LEFT COLUMN - Brand Section */}
-          <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold mb-4 lowercase">cash karma</h3>
-            <p className="text-muted-foreground mb-6 max-w-md">
-              a social giving club for the bold, the kind, the curious. generosity, gamified.
-            </p>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-              <Heart className="w-4 h-4 text-primary" />
-              <span>building community, one drop at a time</span>
+        {/* Contact Card Section */}
+        <div className="mb-16">
+          <div className="bg-gradient-to-r from-primary-gold/10 to-accent-purple/10 border border-primary-gold/30 rounded-2xl p-8 shadow-soft">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold mb-2 text-text-primary">
+                get in touch
+              </h3>
+              <p className="text-text-secondary text-sm">
+                questions? feedback? we'd love to hear from you
+              </p>
             </div>
             
-            {/* Contact Info */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <Mail className="w-4 h-4 text-primary" />
-                <a href="mailto:support@cashkarma.app" className="hover:text-primary transition-colors">
-                  support@cashkarma.app
-                </a>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <MapPin className="w-4 h-4 text-primary" />
-                <span>Mumbai, Maharashtra, India</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <Phone className="w-4 h-4 text-primary" />
-                <span>+91 98765 43210</span>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT COLUMNS - Navigation */}
-          {/* Column 1 - about */}
-          <div>
-            <h4 className="font-semibold mb-4">about</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">how it works</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">our story</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">blog</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">community</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">faq</a></li>
-            </ul>
-          </div>
-
-          {/* Column 2 - support */}
-          <div>
-            <h4 className="font-semibold mb-4">support</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">help center</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">contact us</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">status page</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">feedback</a></li>
-            </ul>
-          </div>
-
-          {/* Column 3 - legal */}
-          <div>
-            <h4 className="font-semibold mb-4">legal</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">privacy policy</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">terms of service</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">cookie policy</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">transparency</a></li>
-            </ul>
-          </div>
-
-          {/* Column 4 - security */}
-          <div>
-            <h4 className="font-semibold mb-4">security</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">security overview</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">compliance</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">bug bounty</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">report issue</a></li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Trust Indicators Section */}
-        <div className="mb-12">
-          <h4 className="font-semibold mb-6 text-center">trusted by</h4>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-xs">R</span>
-              </div>
-              <span>Razorpay</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <div className="w-8 h-8 bg-secondary/20 rounded-lg flex items-center justify-center">
-                <span className="text-secondary font-bold text-xs">S</span>
-              </div>
-              <span>Supabase</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <div className="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center">
-                <span className="text-accent font-bold text-xs">P</span>
-              </div>
-              <span>PCI DSS</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Testimonial Section */}
-        <div className="mb-12">
-          <div className="bg-card/30 backdrop-blur-sm border border-border/20 rounded-xl p-6">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                <span className="text-primary font-bold">A</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm text-muted-foreground mb-2 italic">
-                  "Cash Karma has completely changed how I think about giving. The community aspect makes it so much more meaningful than traditional charity."
-                </p>
+            {/* Contact Information Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex flex-col items-center text-center group">
+                <div className="w-12 h-12 bg-primary-gold/20 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <Mail className="w-5 h-5 text-primary-gold" />
+                </div>
+                <h4 className="font-semibold text-sm mb-1 text-text-primary">email us</h4>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium">Aisha K.</span>
-                  <span className="text-xs text-muted-foreground">•</span>
-                  <span className="text-xs text-muted-foreground">Member since 2023</span>
+                  <span className="text-sm text-text-secondary">
+                    support@cashkarma.app
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleCopyEmail}
+                    className="p-1 h-6 w-6 text-text-secondary hover:text-primary-gold transition-colors duration-300"
+                  >
+                    <Sparkles className="w-3 h-3" />
+                  </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Staff/Founder Section */}
-        <div className="mb-12">
-          <h4 className="font-semibold mb-6 text-center">meet the team</h4>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-3 flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">R</span>
+              <div className="flex flex-col items-center text-center group">
+                <div className="w-12 h-12 bg-accent-purple/20 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <Phone className="w-5 h-5 text-accent-purple" />
+                </div>
+                <h4 className="font-semibold text-sm mb-1 text-text-primary">call us</h4>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-text-secondary">
+                    +91 98765 43210
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleCopyPhone}
+                    className="p-1 h-6 w-6 text-text-secondary hover:text-accent-purple transition-colors duration-300"
+                  >
+                    <Sparkles className="w-3 h-3" />
+                  </Button>
+                </div>
               </div>
-              <h5 className="font-medium mb-1">Rahul Sharma</h5>
-              <p className="text-xs text-muted-foreground mb-2">Founder & CEO</p>
-              <p className="text-xs text-muted-foreground">
-                Former fintech executive with 10+ years building inclusive financial products.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-secondary/20 rounded-full mx-auto mb-3 flex items-center justify-center">
-                <span className="text-secondary font-bold text-lg">P</span>
+
+              <div className="flex flex-col items-center text-center group">
+                <div className="w-12 h-12 bg-primary-gold/20 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-5 h-5 text-primary-gold" />
+                </div>
+                <h4 className="font-semibold text-sm mb-1 text-text-primary">visit us</h4>
+                <span className="text-sm text-text-secondary">
+                  Mumbai, India
+                </span>
               </div>
-              <h5 className="font-medium mb-1">Priya Patel</h5>
-              <p className="text-xs text-muted-foreground mb-2">CTO</p>
-              <p className="text-xs text-muted-foreground">
-                Full-stack engineer passionate about social impact through technology.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent/20 rounded-full mx-auto mb-3 flex items-center justify-center">
-                <span className="text-accent font-bold text-lg">A</span>
-              </div>
-              <h5 className="font-medium mb-1">Arjun Mehta</h5>
-              <p className="text-xs text-muted-foreground mb-2">Head of Community</p>
-              <p className="text-xs text-muted-foreground">
-                Community builder focused on creating meaningful connections through giving.
-              </p>
             </div>
           </div>
         </div>
 
-        {/* Security Banner */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-card/30 backdrop-blur-sm border border-border/20 rounded-xl mb-8">
-          <div className="flex items-center gap-3">
-            <Shield className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium">
-              your data, secured with love. pci-dss compliant. 100% encrypted.
-            </span>
+        {/* Main Footer Content - 4 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          {/* Column 1 - About */}
+          <div>
+            <h4 className="font-bold mb-4 text-primary-gold">about</h4>
+            <ul className="space-y-2 text-sm text-text-secondary">
+              <li><a href="/how-it-works" className="hover:text-primary-gold transition-colors">how it works</a></li>
+              <li><a href="/our-story" className="hover:text-primary-gold transition-colors">our story</a></li>
+              <li><a href="/community" className="hover:text-primary-gold transition-colors">community</a></li>
+              <li><a href="/faq" className="hover:text-primary-gold transition-colors">faq</a></li>
+            </ul>
           </div>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Lock className="w-3 h-3" />
-            <span>no fine print. just protection.</span>
+
+          {/* Column 2 - Support */}
+          <div>
+            <h4 className="font-bold mb-4 text-accent-purple">support</h4>
+            <ul className="space-y-2 text-sm text-text-secondary">
+              <li><a href="/help" className="hover:text-accent-purple transition-colors">help center</a></li>
+              <li><a href="/contact" className="hover:text-accent-purple transition-colors">contact us</a></li>
+              <li><a href="/feedback" className="hover:text-accent-purple transition-colors">feedback</a></li>
+              <li><a href="/status" className="hover:text-accent-purple transition-colors">status page</a></li>
+            </ul>
+          </div>
+
+          {/* Column 3 - Legal */}
+          <div>
+            <h4 className="font-bold mb-4 text-primary-gold">legal</h4>
+            <ul className="space-y-2 text-sm text-text-secondary">
+              <li><a href="/privacy" className="hover:text-primary-gold transition-colors">privacy policy</a></li>
+              <li><a href="/terms" className="hover:text-primary-gold transition-colors">terms of service</a></li>
+              <li><a href="/cookies" className="hover:text-primary-gold transition-colors">cookie policy</a></li>
+              <li><a href="/security" className="hover:text-primary-gold transition-colors">security</a></li>
+            </ul>
+          </div>
+
+          {/* Column 4 - Follow Us */}
+          <div>
+            <h4 className="font-bold mb-4 text-accent-purple">follow us</h4>
+            <div className="flex gap-3 mb-4">
+              <a 
+                href="https://twitter.com/cashkarma" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-surface-white/50 rounded-full flex items-center justify-center text-text-secondary hover:text-blue-400 hover:bg-blue-400/20 transition-all duration-300 hover:scale-110"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://instagram.com/cashkarma" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-surface-white/50 rounded-full flex items-center justify-center text-text-secondary hover:text-pink-500 hover:bg-pink-500/20 transition-all duration-300 hover:scale-110"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://linkedin.com/company/cashkarma" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-surface-white/50 rounded-full flex items-center justify-center text-text-secondary hover:text-blue-600 hover:bg-blue-600/20 transition-all duration-300 hover:scale-110"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://github.com/cashkarma" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-surface-white/50 rounded-full flex items-center justify-center text-text-secondary hover:text-gray-800 hover:bg-gray-800/20 transition-all duration-300 hover:scale-110"
+              >
+                <Github className="w-5 h-5" />
+              </a>
+            </div>
+            <p className="text-xs text-text-secondary">
+              Join our community of karma legends
+            </p>
           </div>
         </div>
 
-        {/* Social Links */}
-        <div className="flex justify-center mb-8">
-          <div className="flex items-center gap-4">
-            <a href="#" className="w-10 h-10 bg-muted/50 rounded-full flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/20 transition-all duration-300 hover:shadow-glow">
-              <Twitter className="w-4 h-4" />
-            </a>
-            <a href="#" className="w-10 h-10 bg-muted/50 rounded-full flex items-center justify-center text-muted-foreground hover:text-secondary hover:bg-secondary/20 transition-all duration-300 hover:shadow-yellow">
-              <Instagram className="w-4 h-4" />
-            </a>
-            <a href="#" className="w-10 h-10 bg-muted/50 rounded-full flex items-center justify-center text-muted-foreground hover:text-accent hover:bg-accent/20 transition-all duration-300 hover:shadow-pink">
-              <Linkedin className="w-4 h-4" />
-            </a>
-            <a href="#" className="w-10 h-10 bg-muted/50 rounded-full flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/20 transition-all duration-300 hover:shadow-glow">
-              <Github className="w-4 h-4" />
-            </a>
-            <a href="#" className="w-10 h-10 bg-muted/50 rounded-full flex items-center justify-center text-muted-foreground hover:text-secondary hover:bg-secondary/20 transition-all duration-300 hover:shadow-yellow">
-              <Facebook className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-
-        {/* Policy Links */}
-        <div className="flex justify-center mb-8">
-          <nav className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-            <a 
-              href="https://merchant.razorpay.com/policy/PqfBTEACVz2o95/terms" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors duration-200"
-            >
-              Terms of Service
-            </a>
-            <span className="text-muted-foreground/50">•</span>
-            <a 
-              href="https://merchant.razorpay.com/policy/PqfBTEACVz2o95/privacy" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors duration-200"
-            >
-              Privacy Policy
-            </a>
-            <span className="text-muted-foreground/50">•</span>
-            <a 
-              href="https://merchant.razorpay.com/policy/PqfBTEACVz2o95/refund" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors duration-200"
-            >
-              Refund Policy
-            </a>
-            <span className="text-muted-foreground/50">•</span>
-            <a 
-              href="https://merchant.razorpay.com/policy/PqfBTEACVz2o95/shipping" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors duration-200"
-            >
-              Shipping Policy
-            </a>
-          </nav>
-        </div>
-        
-        {/* Policy Links Note */}
-        <div className="text-center mb-8">
-          <p className="text-xs text-muted-foreground/60">
-            If the above links don't work, please visit{' '}
-            <a 
-              href="https://razorpay.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              razorpay.com
-            </a>
-            {' '}for our policies.
-          </p>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-border/20">
-          <div className="text-sm text-muted-foreground">
-            © {currentYear} cash karma. made with ❤️ for legends everywhere.
+        {/* Bottom Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-border/20">
+          <div className="flex items-center gap-2 text-sm text-text-secondary">
+            <Sparkles className="w-4 h-4 text-primary-gold" />
+            <span>© {currentYear} cash karma. all rights reserved.</span>
           </div>
           
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <span>mumbai, india</span>
-            <span>•</span>
-            <a href="mailto:support@cashkarma.app" className="hover:text-primary transition-colors">
-              support@cashkarma.app
+          <div className="flex items-center gap-6 text-sm">
+            <a href="/privacy" className="text-text-secondary hover:text-primary-gold transition-colors">
+              privacy
             </a>
-            <span>•</span>
-            <a href="#" className="hover:text-primary transition-colors flex items-center gap-1">
-              transparency report
-              <ExternalLink className="w-3 h-3" />
+            <a href="/terms" className="text-text-secondary hover:text-primary-gold transition-colors">
+              terms
+            </a>
+            <a href="/cookies" className="text-text-secondary hover:text-primary-gold transition-colors">
+              cookies
+            </a>
+            <a href="/security" className="text-text-secondary hover:text-primary-gold transition-colors">
+              security
             </a>
           </div>
         </div>

@@ -71,8 +71,26 @@ export default {
 					green: 'hsl(var(--brand-green))',
 					yellow: 'hsl(var(--brand-yellow))',
 					pink: 'hsl(var(--brand-pink))',
-					navy: 'hsl(var(--brand-navy))'
-				}
+					navy: 'hsl(var(--brand-navy))',
+					gold: '#FFD600',
+					purple: '#8B5CF6'
+				},
+				surface: {
+					cream: '#FFF9E3',
+					white: '#FFFFFF',
+					'gray-50': '#F9FAFB',
+					'gray-100': '#F3F4F6'
+				},
+				text: {
+					primary: '#111827',
+					secondary: '#6B7280',
+					muted: '#9CA3AF'
+				},
+				'primary-gold': '#FFD600',
+				'primary-gold-dark': '#FFC400',
+				'primary-gold-light': '#FFF7DF',
+				'accent-purple': '#8B5CF6',
+				'accent-purple-light': '#C4B5FD'
 			},
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
@@ -84,7 +102,8 @@ export default {
 				'glow': 'var(--shadow-glow)',
 				'pink': 'var(--shadow-pink)',
 				'yellow': 'var(--shadow-yellow)',
-				'soft': 'var(--shadow-soft)'
+				'soft': 'var(--shadow-soft)',
+				'card': '0 10px 15px -3px rgba(255, 214, 0, 0.1)'
 			},
 			fontFamily: {
 				sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -114,11 +133,65 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'spin-slow': {
+					from: {
+						transform: 'rotate(0deg)'
+					},
+					to: {
+						transform: 'rotate(360deg)'
+					}
+				},
+				'spin-slow-reverse': {
+					from: {
+						transform: 'rotate(360deg)'
+					},
+					to: {
+						transform: 'rotate(0deg)'
+					}
+				},
+				'pulse-soft': {
+					'0%, 100%': {
+						opacity: '0.6'
+					},
+					'50%': {
+						opacity: '1'
+					}
+				},
+				'float-slow': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-20px)'
+					}
+				},
+				'float-medium': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-15px)'
+					}
+				},
+				'float-fast': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'spin-slow': 'spin-slow 8s linear infinite',
+				'spin-slow-reverse': 'spin-slow-reverse 12s linear infinite',
+				'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
+				'float-slow': 'float-slow 6s ease-in-out infinite',
+				'float-medium': 'float-medium 4s ease-in-out infinite',
+				'float-fast': 'float-fast 3s ease-in-out infinite'
 			}
 		}
 	},

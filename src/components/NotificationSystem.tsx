@@ -1,207 +1,186 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { X, Bell, Gift, Sparkles } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import React, { useState, useEffect } from 'react';
+import { X, Trophy, CheckCircle, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 interface Notification {
   id: string;
-  type: 'drop_received' | 'match_complete' | 'payout_confirmed';
+  type: 'achievement' | 'success' | 'summary';
   title: string;
   message: string;
-  amount?: number;
-  sender_name?: string;
-  created_at: string;
-  read: boolean;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  bgColor: string;
+  borderColor: string;
 }
 
-interface NotificationSystemProps {
-  children: React.ReactNode;
-}
+const NotificationSystem: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      type: 'achievement',
+      title: 'Karma Pioneer Badge Unlocked!',
+      message: 'You\'ve earned the Karma Pioneer badge for your first 10 drops',
+      icon: Trophy,
+      color: 'text-yellow-600',
+      bgColor: 'bg-yellow-50',
+      borderColor: 'border-yellow-200'
+    },
+    {
+      id: '2',
+      type: 'success',
+      title: 'Drop Sent Successfully!',
+      message: 'Your ₹50 drop has been sent to the community',
+      icon: CheckCircle,
+      color: 'text-green-600',
+      bgColor: 'bg-green-50',
+      borderColor: 'border-green-200'
+    },
+    {
+      id: '3',
+      type: 'summary',
+      title: 'Weekly Impact Summary',
+      message: 'You\'ve created ₹250 in positive impact this week',
+      icon: BarChart3,
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-50',
+      borderColor: 'border-purple-200'
+    }
+  ]);
 
-const NotificationSystem = ({ children }: NotificationSystemProps) => {
-  const { user } = useAuth();
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [showBanner, setShowBanner] = useState(false);
-  const [currentNotification, setCurrentNotification] = useState<Notification | null>(null);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Request notification permission
+  // Auto-advance notifications
   useEffect(() => {
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
-  }, []);
+    if (!isAutoPlaying || notifications.length <= 1) return;
 
-  // Fetch notifications
-  const fetchNotifications = async () => {
-    if (!user) return;
-
-    try {
-      const { data } = await supabase
-        .from('notifications')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(10);
-
-      if (data) {
-        setNotifications(data);
-        setUnreadCount(data.filter((n: Notification) => !n.read).length);
-      }
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    }
-  };
-
-  // Show push notification
-  const showPushNotification = (notification: Notification) => {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification(notification.title, {
-        body: notification.message,
-        icon: '/favicon.ico',
-        badge: '/favicon.ico',
-        tag: notification.id,
-        requireInteraction: true,
-      });
-    }
-  };
-
-  // Show in-app banner
-  const showInAppBanner = (notification: Notification) => {
-    setCurrentNotification(notification);
-    setShowBanner(true);
-    
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-      setShowBanner(false);
-      setCurrentNotification(null);
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % notifications.length);
     }, 5000);
-  };
 
-  // Mark notification as read
-  const markAsRead = async (notificationId: string) => {
-    try {
-      await supabase
-        .from('notifications')
-        .update({ read: true })
-        .eq('id', notificationId);
-      
-      fetchNotifications();
-    } catch (error) {
-      console.error('Error marking notification as read:', error);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, notifications.length]);
+
+  const handleDismiss = (id: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+    if (notifications.length === 1) {
+      setIsVisible(false);
     }
   };
 
-  // Handle new drop received
-  const handleDropReceived = (drop: any) => {
-    const notification: Notification = {
-      id: `drop_${drop.id}`,
-      type: 'drop_received',
-      title: '🎉 You received karma!',
-      message: `${drop.sender?.display_name || 'Someone'} sent you ₹${drop.amount}`,
-      amount: drop.amount,
-      sender_name: drop.sender?.display_name,
-      created_at: new Date().toISOString(),
-      read: false
-    };
-
-    showPushNotification(notification);
-    showInAppBanner(notification);
-    toast.success(notification.title, {
-      description: notification.message,
-      duration: 4000,
-    });
+  const handlePrevious = () => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => (prev - 1 + notifications.length) % notifications.length);
   };
 
-  // Subscribe to real-time updates
-  useEffect(() => {
-    if (!user) return;
+  const handleNext = () => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => (prev + 1) % notifications.length);
+  };
 
-    fetchNotifications();
+  const handleDismissAll = () => {
+    setIsVisible(false);
+  };
 
-    const channel = supabase
-      .channel('notifications')
-      .on('postgres_changes', { 
-        event: 'INSERT', 
-        schema: 'public', 
-        table: 'drops',
-        filter: `recipient_id=eq.${user.id}`
-      }, (payload) => {
-        handleDropReceived(payload.new);
-      })
-      .subscribe();
+  if (!isVisible || notifications.length === 0) {
+    return <>{children}</>;
+  }
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user]);
+  const currentNotification = notifications[currentIndex];
 
   return (
     <>
-      {/* Notification Banner */}
-      {showBanner && currentNotification && (
-        <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-right duration-300">
-          <Card className="w-80 bg-gradient-to-r from-brand-pink/20 to-brand-yellow/20 border-brand-pink/30 shadow-lg">
-            <CardContent className="p-4">
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-10 h-10 bg-brand-pink/20 rounded-full flex items-center justify-center">
-                  <Gift className="w-5 h-5 text-brand-pink" />
+      {/* Notification Bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            {/* Notification Content */}
+            <div className="flex items-center flex-1 min-w-0">
+              <div className={`flex items-center gap-3 p-3 rounded-lg border ${currentNotification.bgColor} ${currentNotification.borderColor} flex-1`}>
+                <div className={`p-2 rounded-full ${currentNotification.bgColor}`}>
+                  <currentNotification.icon className={`w-5 h-5 ${currentNotification.color}`} />
                 </div>
+                
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-sm mb-1">
-                    {currentNotification.title}
-                  </h4>
-                  <p className="text-xs text-muted-foreground mb-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h4 className={`font-semibold text-sm ${currentNotification.color}`}>
+                      {currentNotification.title}
+                    </h4>
+                    <Badge 
+                      variant="secondary" 
+                      className={`text-xs ${currentNotification.color} ${currentNotification.bgColor} ${currentNotification.borderColor}`}
+                    >
+                      {currentNotification.type}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-gray-600 truncate">
                     {currentNotification.message}
                   </p>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      className="h-6 text-xs bg-brand-pink/20 text-brand-pink hover:bg-brand-pink/30"
-                      onClick={() => markAsRead(currentNotification.id)}
-                    >
-                      View
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 text-xs"
-                      onClick={() => setShowBanner(false)}
-                    >
-                      Dismiss
-                    </Button>
-                  </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Navigation Controls */}
+            {notifications.length > 1 && (
+              <div className="flex items-center gap-2 ml-4">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-6 w-6 p-0"
-                  onClick={() => setShowBanner(false)}
+                  onClick={handlePrevious}
+                  className="p-1 h-8 w-8 text-gray-500 hover:text-gray-700"
                 >
-                  <X className="w-3 h-3" />
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                
+                <div className="flex gap-1">
+                  {notifications.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setIsAutoPlaying(false);
+                        setCurrentIndex(index);
+                      }}
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        index === currentIndex 
+                          ? currentNotification.color.replace('text-', 'bg-') 
+                          : 'bg-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleNext}
+                  className="p-1 h-8 w-8 text-gray-500 hover:text-gray-700"
+                >
+                  <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+            )}
 
-      {/* Notification Indicator */}
-      {unreadCount > 0 && (
-        <div className="fixed top-4 right-4 z-40">
-          <div className="relative">
-            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
-              {unreadCount > 9 ? '9+' : unreadCount}
-            </span>
+            {/* Dismiss Button */}
+            <div className="flex items-center gap-2 ml-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleDismiss(currentNotification.id)}
+                className="p-1 h-8 w-8 text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
-      {children}
+      {/* Add top padding to account for fixed notification bar */}
+      <div className="pt-16">
+        {children}
+      </div>
     </>
   );
 };

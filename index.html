@@ -3,25 +3,122 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cash karma - generosity, gamified</title>
-    <meta name="description" content="a social giving club for the bold, the kind, the curious" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Cash Karma - Generosity, Gamified</title>
+    <meta name="title" content="Cash Karma - Generosity, Gamified" />
+    <meta name="description" content="A social giving club for the bold, the kind, the curious. Send anonymous karma drops and spread good vibes in your community." />
+    <meta name="keywords" content="karma, generosity, social giving, anonymous giving, community, good vibes, cash karma" />
     <meta name="author" content="Cash Karma" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cashkarma.app/" />
+    <meta property="og:title" content="Cash Karma - Generosity, Gamified" />
+    <meta property="og:description" content="A social giving club for the bold, the kind, the curious. Send anonymous karma drops and spread good vibes in your community." />
+    <meta property="og:image" content="https://cashkarma.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Cash Karma" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://cashkarma.app/" />
+    <meta name="twitter:title" content="Cash Karma - Generosity, Gamified" />
+    <meta name="twitter:description" content="A social giving club for the bold, the kind, the curious. Send anonymous karma drops and spread good vibes in your community." />
+    <meta name="twitter:image" content="https://cashkarma.app/og-image.png" />
+    <meta name="twitter:site" content="@cashkarma" />
+    <meta name="twitter:creator" content="@cashkarma" />
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#10b981" />
+    <meta name="msapplication-TileColor" content="#10b981" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Cash Karma" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.razorpay.com">
+    <link rel="preconnect" href="https://supabase.co">
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <meta property="og:title" content="karma-flow-club" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Cash Karma",
+      "description": "A social giving club for the bold, the kind, the curious",
+      "url": "https://cashkarma.app",
+      "applicationCategory": "SocialNetworkingApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Cash Karma"
+      }
+    }
+    </script>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    
+    <!-- Performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//api.razorpay.com" />
+    <link rel="dns-prefetch" href="//supabase.co" />
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Performance monitoring -->
+    <script>
+      // Performance monitoring with accurate timing
+      let pageLoadStartTime = performance.now();
+      
+      // Track DOM content loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        const domContentLoadedTime = performance.now() - pageLoadStartTime;
+        console.log('DOM Content Loaded:', domContentLoadedTime.toFixed(2), 'ms');
+      });
+      
+      // Track full page load
+      window.addEventListener('load', function() {
+        const fullLoadTime = performance.now() - pageLoadStartTime;
+        console.log('Full Page Load Time:', fullLoadTime.toFixed(2), 'ms');
+        
+        // Also log navigation timing data if available
+        if ('performance' in window) {
+          const perfData = performance.getEntriesByType('navigation')[0];
+          if (perfData && perfData.loadEventEnd > 0) {
+            const navigationLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+            console.log('Navigation Load Time:', navigationLoadTime.toFixed(2), 'ms');
+          }
+        }
+      });
+    </script>
   </body>
 </html>

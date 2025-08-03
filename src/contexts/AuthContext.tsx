@@ -1,143 +1,262 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  avatar_url?: string;
-}
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { supabase, User, AuthError, signInWithGoogle } from '@/lib/supabase'
+import { Session } from '@supabase/supabase-js'
 
 interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  signIn: (username: string, password: string) => Promise<{ error?: string }>;
-  signOut: () => void;
-  signUp: (username: string, password: string, name: string) => Promise<{ error?: string }>;
+  user: User | null
+  session: Session | null
+  loading: boolean
+  signInWithMagicLink: (email: string) => Promise<{ error: AuthError | null }>
+  signInWithGoogle: () => Promise<{ data: any; error: AuthError | null }>
+  signInWithTestCredentials: (username: string, password: string) => Promise<{ error: AuthError | null }>
+  signOut: () => Promise<void>
+  updateUserProfile: (updates: Partial<User>) => Promise<{ error: AuthError | null }>
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// Mock user accounts for testing
-const MOCK_ACCOUNTS = [
+// Test user credentials (in a real app, these would be in environment variables)
+const TEST_USERS = [
   {
-    id: '1',
-    email: 'testuser@example.com',
+    username: 'testuser@example.com',
     password: 'password123',
-    name: 'Test User',
-    avatar_url: undefined
+    user: {
+      id: 'test-user-1',
+      email: 'testuser@example.com',
+      name: 'Test User',
+      avatar_url: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
   },
   {
-    id: '2',
-    email: 'admin@test.com',
+    username: 'admin@test.com',
     password: 'admin123',
-    name: 'Admin User',
-    avatar_url: undefined
+    user: {
+      id: 'test-admin-1',
+      email: 'admin@test.com',
+      name: 'Admin User',
+      avatar_url: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
   },
   {
-    id: '3',
-    email: 'demo@demo.com',
+    username: 'demo@demo.com',
     password: 'demo123',
-    name: 'Demo User',
-    avatar_url: undefined
+    user: {
+      id: 'test-demo-1',
+      email: 'demo@demo.com',
+      name: 'Demo User',
+      avatar_url: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
   }
-];
+]
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider')
   }
-  return context;
-};
+  return context
+}
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+interface AuthProviderProps {
+  children: React.ReactNode
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check for existing session in localStorage
-    const savedUser = localStorage.getItem('cashkarma_user');
-    if (savedUser) {
-      try {
-        const userData = JSON.parse(savedUser);
-        setUser(userData);
-      } catch (error) {
-        console.error('Error parsing saved user:', error);
-        localStorage.removeItem('cashkarma_user');
-      }
+    // Get initial session
+    const getInitialSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      setSession(session)
+      setUser(session?.user ?? null)
+      setLoading(false)
     }
-    setLoading(false);
-  }, []);
 
-  const signIn = async (username: string, password: string): Promise<{ error?: string }> => {
+    getInitialSession()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.email)
+        setSession(session)
+        setUser(session?.user ?? null)
+        setLoading(false)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const handleSignInWithMagicLink = async (email: string): Promise<{ error: AuthError | null }> => {
     try {
-      // Find user in mock accounts
-      const account = MOCK_ACCOUNTS.find(
-        acc => acc.email === username && acc.password === password
-      );
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`
+        }
+      })
 
-      if (!account) {
-        return { error: 'Invalid username or password' };
+      if (error) {
+        return {
+          error: {
+            message: error.message,
+            status: error.status
+          }
+        }
       }
 
-      // Create user object without password
-      const userData: User = {
-        id: account.id,
-        email: account.email,
-        name: account.name,
-        avatar_url: account.avatar_url
-      };
-
-      // Save to localStorage
-      localStorage.setItem('cashkarma_user', JSON.stringify(userData));
-      setUser(userData);
-
-      return {};
+      return { error: null }
     } catch (error) {
-      console.error('Sign in error:', error);
-      return { error: 'An error occurred during sign in' };
+      return {
+        error: {
+          message: 'An unexpected error occurred. Please try again.',
+          status: 500
+        }
+      }
     }
-  };
+  }
 
-  const signUp = async (username: string, password: string, name: string): Promise<{ error?: string }> => {
+  const handleSignInWithGoogle = async (): Promise<{ data: any; error: AuthError | null }> => {
     try {
-      // Check if user already exists
-      const existingUser = MOCK_ACCOUNTS.find(acc => acc.email === username);
-      if (existingUser) {
-        return { error: 'User already exists' };
+      const { data, error } = await signInWithGoogle()
+      
+      if (error) {
+        return {
+          data: null,
+          error: {
+            message: error.message,
+            status: error.status
+          }
+        }
       }
 
-      // Create new user
-      const newUser: User = {
-        id: Date.now().toString(),
-        email: username,
-        name: name,
-        avatar_url: undefined
-      };
-
-      // Save to localStorage
-      localStorage.setItem('cashkarma_user', JSON.stringify(newUser));
-      setUser(newUser);
-
-      return {};
+      return { data, error: null }
     } catch (error) {
-      console.error('Sign up error:', error);
-      return { error: 'An error occurred during sign up' };
+      return {
+        data: null,
+        error: {
+          message: 'An unexpected error occurred during Google sign-in.',
+          status: 500
+        }
+      }
     }
-  };
+  }
 
-  const signOut = () => {
-    localStorage.removeItem('cashkarma_user');
-    setUser(null);
-  };
+  const handleSignInWithTestCredentials = async (username: string, password: string): Promise<{ error: AuthError | null }> => {
+    try {
+      // Find matching test user
+      const testUser = TEST_USERS.find(
+        user => user.username === username && user.password === password
+      )
 
-  const value = {
+      if (!testUser) {
+        return {
+          error: {
+            message: 'Invalid test credentials. Please check your username and password.',
+            status: 401
+          }
+        }
+      }
+
+      // Simulate authentication delay
+      await new Promise(resolve => setTimeout(resolve, 1000))
+
+      // Set the test user as authenticated
+      setUser(testUser.user)
+      setSession({
+        access_token: 'test-access-token',
+        refresh_token: 'test-refresh-token',
+        expires_in: 3600,
+        token_type: 'bearer',
+        user: testUser.user
+      } as Session)
+
+      return { error: null }
+    } catch (error) {
+      return {
+        error: {
+          message: 'An unexpected error occurred during test authentication.',
+          status: 500
+        }
+      }
+    }
+  }
+
+  const signOut = async (): Promise<void> => {
+    try {
+      // If it's a test user, just clear the local state
+      if (user?.id?.startsWith('test-')) {
+        setUser(null)
+        setSession(null)
+        return
+      }
+
+      // Otherwise, use Supabase sign out
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        console.error('Error signing out:', error)
+      }
+    } catch (error) {
+      console.error('Unexpected error during sign out:', error)
+    }
+  }
+
+  const updateUserProfile = async (updates: Partial<User>): Promise<{ error: AuthError | null }> => {
+    try {
+      // For test users, update local state
+      if (user?.id?.startsWith('test-')) {
+        setUser({ ...user, ...updates })
+        return { error: null }
+      }
+
+      // For real users, use Supabase
+      const { error } = await supabase.auth.updateUser({
+        data: updates
+      })
+
+      if (error) {
+        return {
+          error: {
+            message: error.message,
+            status: error.status
+          }
+        }
+      }
+
+      return { error: null }
+    } catch (error) {
+      return {
+        error: {
+          message: 'Failed to update profile. Please try again.',
+          status: 500
+        }
+      }
+    }
+  }
+
+  const value: AuthContextType = {
     user,
+    session,
     loading,
-    signIn,
+    signInWithMagicLink: handleSignInWithMagicLink,
+    signInWithGoogle: handleSignInWithGoogle,
+    signInWithTestCredentials: handleSignInWithTestCredentials,
     signOut,
-    signUp,
-  };
+    updateUserProfile
+  }
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
