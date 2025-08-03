@@ -7,8 +7,8 @@
 2. Navigate to **Authentication** → **Providers**
 3. Find **Google** and click **Enable**
 4. Enter your Google OAuth credentials:
-   - **Client ID**: `292429606594-o0uq25qn7r30tlaerl1c0ot5s5bv32tm.apps.googleusercontent.com`
-   - **Client Secret**: `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`
+   - **Client ID**: `your_google_client_id_here`
+   - **Client Secret**: `your_google_client_secret_here`
 
 ### 2. **Configure Redirect URLs**
 In your Supabase Dashboard under **Authentication** → **URL Configuration**, add:
@@ -39,7 +39,7 @@ https://yourdomain.com/dashboard
 
 ### 2. **Configure OAuth Credentials**
 1. Go to **APIs & Services** → **Credentials**
-2. Find your OAuth 2.0 Client ID: `292429606594-o0uq25qn7r30tlaerl1c0ot5s5bv32tm.apps.googleusercontent.com`
+2. Find your OAuth 2.0 Client ID: `your_google_client_id_here`
 3. Click **Edit** and add these **Authorized redirect URIs**:
 
 **For Development:**

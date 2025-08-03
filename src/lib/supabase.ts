@@ -3,9 +3,9 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = 'https://pcvrqiogqnrmekbjmdsf.supabase.co'
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjdnJxaW9ncW5ybWVrYmptZHNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NzY4NDgsImV4cCI6MjA2OTU1Mjg0OH0.d4TH8MsHEXsS-Zwc-GDrpElt17CnwMQ8C9WhIsb_zcI'
 
-// Google OAuth Configuration
-const GOOGLE_CLIENT_ID = '292429606594-o0uq25qn7r30tlaerl1c0ot5s5bv32tm.apps.googleusercontent.com'
-const GOOGLE_CLIENT_SECRET = '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'
+// Google OAuth Configuration - Use environment variables
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'your_google_client_id_here'
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || 'your_google_client_secret_here'
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
