@@ -37,13 +37,36 @@ export interface AuthResponse {
 
 // Google OAuth helper functions
 export const signInWithGoogle = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: `${window.location.origin}/auth/callback`
-    }
-  })
-  return { data, error }
+  // Check if Google OAuth is properly configured
+  if (!import.meta.env.VITE_GOOGLE_CLIENT_ID) {
+    console.warn('Google OAuth not configured. Please set VITE_GOOGLE_CLIENT_ID in your environment variables.');
+    return {
+      data: null,
+      error: {
+        message: 'Google OAuth is not configured. Please contact support.',
+        status: 500
+      }
+    };
+  }
+
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`
+      }
+    })
+    return { data, error }
+  } catch (error) {
+    console.error('Google OAuth error:', error);
+    return {
+      data: null,
+      error: {
+        message: 'Failed to initiate Google sign-in. Please try again.',
+        status: 500
+      }
+    };
+  }
 }
 
 export const getGoogleAuthUrl = () => {
