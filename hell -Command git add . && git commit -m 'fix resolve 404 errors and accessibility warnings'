@@ -1,0 +1,62 @@
+[1mdiff --git a/src/components/Team.tsx b/src/components/Team.tsx[m
+[1mindex 1c59fa2..21ccf97 100644[m
+[1m--- a/src/components/Team.tsx[m
+[1m+++ b/src/components/Team.tsx[m
+[36m@@ -62,7 +62,7 @@[m [mconst Team = () => {[m
+       id: 2,[m
+       name: "Priya Patel",[m
+       role: "CTO",[m
+[31m-      avatar: "/assets/avatars/priya.jpg",[m
+[32m+[m[32m      avatar: "/src/assets/avatars/panda.png",[m
+       initials: "PP",[m
+       bio: "Full-stack engineer passionate about social impact through technology. Loves building scalable, secure systems that make a difference.",[m
+       longBio: "Priya brings her expertise in building robust, scalable systems to Cash Karma. She believes that technology should serve humanity, and every line of code should contribute to making the world a better place.",[m
+[36m@@ -77,7 +77,7 @@[m [mconst Team = () => {[m
+       id: 3,[m
+       name: "Arjun Mehta",[m
+       role: "Head of Community",[m
+[31m-      avatar: "/assets/avatars/arjun.jpg",[m
+[32m+[m[32m      avatar: "/src/assets/avatars/robot.png",[m
+       initials: "AM",[m
+       bio: "Community builder focused on creating meaningful connections through giving. Believes in the power of collective action.",[m
+       longBio: "Arjun has spent years building communities around shared values. At Cash Karma, he's creating spaces where strangers become family through the simple act of giving.",[m
+[36m@@ -92,7 +92,7 @@[m [mconst Team = () => {[m
+       id: 4,[m
+       name: "Aisha Khan",[m
+       role: "Head of Product",[m
+[31m-      avatar: "/assets/avatars/aisha.jpg",[m
+[32m+[m[32m      avatar: "/src/assets/avatars/cat.png",[m
+       initials: "AK",[m
+       bio: "Product strategist with a heart for user experience. Dedicated to making giving accessible and enjoyable for everyone.",[m
+       longBio: "Aisha's background in product design has taught her that the best products are those that feel invisible yet indispensable. She's making generosity as easy as breathing.",[m
+[36m@@ -107,7 +107,7 @@[m [mconst Team = () => {[m
+       id: 5,[m
+       name: "Vikram Singh",[m
+       role: "Head of Security",[m
+[31m-      avatar: "/assets/avatars/vikram.jpg",[m
+[32m+[m[32m      avatar: "/src/assets/avatars/astronaut.png",[m
+       initials: "VS",[m
+       bio: "Security expert committed to protecting user data and building trust. Ensures every transaction is safe and secure.",[m
+       longBio: "Vikram's expertise in cybersecurity ensures that every interaction on Cash Karma is protected by bank-level security. Trust is the foundation of everything we do.",[m
+[1mdiff --git a/src/components/onboarding/OnboardingModal.tsx b/src/components/onboarding/OnboardingModal.tsx[m
+[1mindex b48fd43..be521ae 100644[m
+[1m--- a/src/components/onboarding/OnboardingModal.tsx[m
+[1m+++ b/src/components/onboarding/OnboardingModal.tsx[m
+[36m@@ -1,5 +1,5 @@[m
+ import { useState, useEffect } from "react";[m
+[31m-import { Dialog, DialogContent } from "@/components/ui/dialog";[m
+[32m+[m[32mimport { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";[m
+ import { X, Sparkles } from "lucide-react";[m
+ import { Button } from "@/components/ui/button";[m
+ import LoginStep from "./MagicLinkStep";[m
+[36m@@ -108,6 +108,10 @@[m [mconst OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {[m
+           "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]"[m
+         )}[m
+       >[m
+[32m+[m[32m        {/* Accessibility elements - hidden but required */}[m
+[32m+[m[32m        <DialogTitle className="sr-only">{getStepTitle()}</DialogTitle>[m
+[32m+[m[32m        <DialogDescription className="sr-only">{getStepDescription()}</DialogDescription>[m
+[32m+[m
+         {/* Custom Close Button */}[m
+         <Button[m
+           variant="ghost"[m
