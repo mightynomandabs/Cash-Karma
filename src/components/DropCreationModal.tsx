@@ -93,11 +93,11 @@ export const DropCreationModal: React.FC<DropCreationModalProps> = ({
   return (
     <div className={`fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}>
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={handleClose} />
-      <div className="fixed inset-0 flex items-center justify-center p-4">
+      <div className="fixed inset-0 flex items-center justify-center p-3 sm:p-4">
         <div className="bg-card rounded-2xl shadow-2xl w-full max-w-md transform transition-all border border-border">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-foreground">Send a Drop</h2>
+          <div className="p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground">Send a Drop</h2>
               <button
                 onClick={handleClose}
                 className="p-2 text-muted-foreground hover:text-foreground transition-colors"

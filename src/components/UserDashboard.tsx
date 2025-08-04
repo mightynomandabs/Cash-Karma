@@ -115,9 +115,9 @@ const StatsCards = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {stats.map((stat) => (
-        <div key={stat.id} className="bg-card rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
+        <div key={stat.id} className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <div className={`p-3 rounded-lg ${stat.bgColor}`}>
               <stat.icon className={`w-6 h-6 ${stat.color}`} />
@@ -128,18 +128,18 @@ const StatsCards = () => {
               </div>
             )}
           </div>
-          <div className="mt-4">
-            <h3 className="text-sm font-medium text-muted-foreground">{stat.title}</h3>
+          <div className="mt-3 sm:mt-4">
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground">{stat.title}</h3>
             <div className="flex items-baseline">
-              <p className="text-2xl font-semibold text-foreground">
+              <p className="text-lg sm:text-2xl font-semibold text-foreground">
                 {stat.value}
               </p>
               {stat.suffix && (
-                <span className="ml-1 text-sm text-muted-foreground">{stat.suffix}</span>
+                <span className="ml-1 text-xs sm:text-sm text-muted-foreground">{stat.suffix}</span>
               )}
             </div>
             {stat.change && (
-              <p className="text-sm text-brand-green mt-1">{stat.change}</p>
+              <p className="text-xs sm:text-sm text-brand-green mt-1">{stat.change}</p>
             )}
           </div>
         </div>
@@ -170,9 +170,9 @@ const ProfileCard = () => {
   };
 
   return (
-    <div className="bg-card rounded-xl p-6 shadow-sm border border-border">
+    <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-foreground">Profile</h2>
+        <h2 className="text-base sm:text-lg font-semibold text-foreground">Profile</h2>
         <button
           onClick={() => setIsEditing(!isEditing)}
           className="p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -198,10 +198,10 @@ const ProfileCard = () => {
             type="text"
             value={profile.name}
             onChange={(e) => setProfile({...profile, name: e.target.value})}
-            className="text-xl font-semibold text-center border-b border-border bg-transparent focus:border-brand-green outline-none text-foreground"
+            className="text-lg sm:text-xl font-semibold text-center border-b border-border bg-transparent focus:border-brand-green outline-none text-foreground"
           />
         ) : (
-          <h3 className="text-xl font-semibold text-foreground">{profile.name}</h3>
+          <h3 className="text-lg sm:text-xl font-semibold text-foreground">{profile.name}</h3>
         )}
         
         <div className="flex items-center justify-center mt-2">
@@ -227,7 +227,7 @@ const ProfileCard = () => {
         </div>
       </div>
 
-      <div className="space-y-3 text-sm">
+      <div className="space-y-3 text-xs sm:text-sm">
         <div className="flex justify-between items-center">
           <span className="text-muted-foreground">Email</span>
           <div className="flex items-center">
@@ -298,24 +298,24 @@ const EnhancedActivityFeed = () => {
   };
 
   return (
-    <div className="bg-card rounded-xl p-6 shadow-sm border border-border">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold text-foreground">Recent Activity</h2>
-        <button className="text-sm text-brand-green hover:text-brand-green/80">
+    <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 className="text-base sm:text-lg font-semibold text-foreground">Recent Activity</h2>
+        <button className="text-xs sm:text-sm text-brand-green hover:text-brand-green/80">
           View All
         </button>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {activities.map((activity) => (
-          <div key={activity.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-brand-green to-brand-yellow flex items-center justify-center text-white text-sm font-semibold flex-shrink-0">
+          <div key={activity.id} className="flex items-start space-x-2 sm:space-x-3 p-2 sm:p-3 rounded-lg hover:bg-muted/50 transition-colors">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-brand-green to-brand-yellow flex items-center justify-center text-white text-xs sm:text-sm font-semibold flex-shrink-0">
               {activity.avatar}
             </div>
             
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-foreground">
+                <p className="text-xs sm:text-sm font-medium text-foreground">
                   {activity.type === 'sent' ? 'You sent' : 'You received'} ₹{activity.amount}
                   {activity.type === 'sent' ? ` to ${activity.name}` : ` from ${activity.name}`}
                 </p>
@@ -323,11 +323,11 @@ const EnhancedActivityFeed = () => {
               </div>
               
               {activity.message && (
-                <p className="text-sm text-muted-foreground mt-1">"{activity.message}"</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1">"{activity.message}"</p>
               )}
               
               <div className="flex items-center justify-between mt-2">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2 sm:space-x-3">
                   <button
                     onClick={() => handleReaction(activity.id, 'likes')}
                     className={`flex items-center space-x-1 text-xs transition-colors ${
@@ -370,10 +370,10 @@ const AchievementsCard = () => {
   ];
 
   return (
-    <div className="bg-card rounded-xl p-6 shadow-sm border border-border">
-      <h2 className="text-lg font-semibold text-foreground mb-4">Achievements</h2>
+    <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
+      <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4">Achievements</h2>
       
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2 sm:gap-3">
         {achievements.map((achievement) => (
           <div key={achievement.id} className={`p-4 rounded-lg border-2 transition-all ${
             achievement.unlocked 
@@ -477,26 +477,26 @@ export const UserDashboard: React.FC = () => {
 
   return (
     <div className="pt-16 min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
+      <div className="max-w-7xl mx-auto p-3 sm:p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             <StatsCards />
-            <div className="bg-card rounded-xl p-6 shadow-sm border border-border">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-foreground">Send a Drop</h2>
+            <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4">
+                <h2 className="text-base sm:text-lg font-semibold text-foreground">Send a Drop</h2>
                 <button
                   onClick={() => setShowDropModal(true)}
-                  className="bg-gradient-to-r from-brand-green to-brand-yellow text-white px-4 py-2 rounded-lg hover:from-brand-green/90 hover:to-brand-yellow/90 transition-all transform hover:scale-105"
+                  className="bg-gradient-to-r from-brand-green to-brand-yellow text-white px-3 sm:px-4 py-2 rounded-lg hover:from-brand-green/90 hover:to-brand-yellow/90 transition-all transform hover:scale-105 text-sm sm:text-base"
                 >
                   <Plus className="w-4 h-4 mr-2 inline" />
                   Send Drop
                 </button>
               </div>
-              <p className="text-muted-foreground">Spread kindness with micro-donations</p>
+              <p className="text-sm sm:text-base text-muted-foreground">Spread kindness with micro-donations</p>
             </div>
             <EnhancedActivityFeed />
           </div>
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <ProfileCard />
             <AchievementsCard />
           </div>

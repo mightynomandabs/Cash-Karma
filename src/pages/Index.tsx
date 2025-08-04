@@ -65,23 +65,23 @@ const Index = () => {
         </div>
         
         {user && (
-          <div className="py-16 px-6">
+          <div className="py-8 sm:py-16 px-3 sm:px-6">
             {/* Header with logout button */}
             <AnimatedSection delay={200}>
-              <div className="max-w-6xl mx-auto mb-8 flex justify-between items-center">
+              <div className="max-w-6xl mx-auto mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0">
                 <div>
-                  <h1 className="text-2xl font-bold text-text-primary hover:text-primary-gold transition-colors duration-300">Welcome, {user.name}!</h1>
-                  <p className="text-text-secondary hover:text-text-primary transition-colors duration-300">Ready to spread some karma?</p>
+                  <h1 className="text-xl sm:text-2xl font-bold text-text-primary hover:text-primary-gold transition-colors duration-300">Welcome, {user.name}!</h1>
+                  <p className="text-sm sm:text-base text-text-secondary hover:text-text-primary transition-colors duration-300">Ready to spread some karma?</p>
                 </div>
                 <LogoutButton />
               </div>
             </AnimatedSection>
             
-            <div className="max-w-6xl mx-auto space-y-16">
+            <div className="max-w-6xl mx-auto space-y-8 sm:space-y-16">
               {/* Profile and Gamification Section */}
               <AnimatedSection delay={400}>
                 <section>
-                  <div className="grid md:grid-cols-2 gap-8">
+                  <div className="grid md:grid-cols-2 gap-4 sm:gap-8">
                     <ProfileCard />
                     <DailyGoals />
                   </div>

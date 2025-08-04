@@ -97,6 +97,10 @@ const UserAvatar = () => {
   const { user, signOut } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
 
+  // Debug logging
+  console.log('UserAvatar - User data:', user);
+  console.log('UserAvatar - User metadata:', user?.user_metadata);
+
   const handleSignOut = async () => {
     await signOut();
     window.location.href = '/';
@@ -113,15 +117,31 @@ const UserAvatar = () => {
            `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.email || 'default'}`;
   };
 
+  // Ensure we always have a fallback
+  if (!user) {
+    return (
+      <div className="flex items-center space-x-2 p-2 rounded-lg bg-background/50">
+        <Avatar className="w-8 h-8 border-2 border-primary/20">
+          <AvatarFallback className="bg-gradient-to-r from-brand-green to-brand-yellow text-white font-semibold">
+            ?
+          </AvatarFallback>
+        </Avatar>
+        <span className="hidden sm:block text-sm font-medium text-foreground">
+          Loading...
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="relative">
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className="flex items-center space-x-2 p-2 rounded-lg hover:bg-muted/50 transition-colors"
+        className="flex items-center space-x-2 p-2 rounded-lg hover:bg-muted/50 transition-colors bg-background/50"
       >
-        <Avatar className="w-8 h-8">
+        <Avatar className="w-8 h-8 border-2 border-primary/20 shadow-lg">
           <AvatarImage src={getUserAvatar()} alt="User avatar" />
-          <AvatarFallback className="bg-gradient-to-r from-brand-green to-brand-yellow text-white">
+          <AvatarFallback className="bg-gradient-to-r from-brand-green to-brand-yellow text-white font-semibold shadow-inner">
             {getUserDisplayName().charAt(0)}
           </AvatarFallback>
         </Avatar>
@@ -160,9 +180,9 @@ const UserAvatar = () => {
 
 const Navigation = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav className="fixed top-0 left-0 right-0 z-[9999] bg-background/90 backdrop-blur-md border-b border-border">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-14 sm:h-16">
           <div className="flex items-center space-x-3">
             {/* Logo */}
             <div className="flex items-center justify-center w-10 h-10">
@@ -173,11 +193,11 @@ const Navigation = () => {
               />
             </div>
             {/* Brand Name */}
-            <h1 className="text-xl font-bold bg-gradient-to-r from-brand-green via-brand-yellow to-brand-pink bg-clip-text text-transparent">
+            <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-brand-green via-brand-yellow to-brand-pink bg-clip-text text-transparent">
               Cash Karma
             </h1>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <NotificationBell />
             <UserAvatar />
           </div>

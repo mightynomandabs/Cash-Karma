@@ -63,7 +63,7 @@ const HeroSection = () => {
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 sm:pt-36 bg-gradient-to-br from-surface-cream via-surface-white to-surface-gray-50"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 sm:pt-32 lg:pt-36 bg-gradient-to-br from-surface-cream via-surface-white to-surface-gray-50"
     >
       {/* Warm Background with Subtle Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-surface-cream via-surface-white to-surface-gray-50" />
@@ -86,7 +86,7 @@ const HeroSection = () => {
       </div>
       
       {/* Content with Clean Typography */}
-      <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
+      <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6">
         {/* Invitation Only Badge */}
         <div className={`transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="inline-flex items-center gap-2 mb-8">
@@ -99,7 +99,7 @@ const HeroSection = () => {
 
         {/* Streamlined Headline */}
         <div className={`transition-all duration-1000 ease-out delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black mb-8 text-text-primary leading-[1.1] tracking-tight">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 sm:mb-8 text-text-primary leading-[1.1] tracking-tight">
             generosity,
             <br className="hidden sm:block" /> 
             gamified
@@ -108,8 +108,8 @@ const HeroSection = () => {
 
         {/* Simplified Tagline */}
         <div className={`transition-all duration-1000 ease-out delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-12 max-w-3xl mx-auto">
-            <p className="text-xl sm:text-2xl lg:text-3xl text-text-secondary leading-relaxed font-light">
+          <div className="mb-8 sm:mb-12 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl text-text-secondary leading-relaxed font-light">
               cash karma. a social giving club for the bold, the kind, the curious.
             </p>
           </div>
@@ -117,11 +117,11 @@ const HeroSection = () => {
 
         {/* Single Primary CTA */}
         <div className={`transition-all duration-1000 ease-out delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-16">
+          <div className="mb-12 sm:mb-16">
             <Button 
               onClick={handleGetMagicLink}
               disabled={isLoading}
-              className="relative group bg-primary-gold hover:bg-primary-gold-dark text-text-primary px-12 py-6 text-xl font-bold rounded-full transition-all duration-500 transform hover:scale-105 shadow-card hover:shadow-lg"
+              className="relative group bg-primary-gold hover:bg-primary-gold-dark text-text-primary px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold rounded-full transition-all duration-500 transform hover:scale-105 shadow-card hover:shadow-lg"
             >
               {/* Button glow effect */}
               <div className="absolute inset-0 bg-primary-gold rounded-full blur-xl opacity-50 animate-pulse"></div>
@@ -137,24 +137,24 @@ const HeroSection = () => {
 
         {/* Simplified Impact Stats */}
         <div className={`transition-all duration-1000 ease-out delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-            <div className="flex items-center gap-4 px-6 py-3 bg-surface-cream border border-primary-gold/30 rounded-xl shadow-soft">
-              <Gift className="w-5 h-5 text-primary-gold" />
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-center items-center">
+            <div className="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 bg-surface-cream border border-primary-gold/30 rounded-xl shadow-soft">
+              <Gift className="w-4 h-4 sm:w-5 sm:h-5 text-primary-gold" />
               <div>
-                <div className="text-xl font-bold text-primary-gold">
+                <div className="text-lg sm:text-xl font-bold text-primary-gold">
                   {dropsCount.toLocaleString()}
                 </div>
-                <div className="text-sm text-text-secondary">drops sent</div>
+                <div className="text-xs sm:text-sm text-text-secondary">drops sent</div>
               </div>
             </div>
             
-            <div className="flex items-center gap-4 px-6 py-3 bg-surface-cream border border-accent-purple/30 rounded-xl shadow-soft">
-              <Users className="w-5 h-5 text-accent-purple" />
+            <div className="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 bg-surface-cream border border-accent-purple/30 rounded-xl shadow-soft">
+              <Users className="w-4 h-4 sm:w-5 sm:h-5 text-accent-purple" />
               <div>
-                <div className="text-xl font-bold text-accent-purple">
+                <div className="text-lg sm:text-xl font-bold text-accent-purple">
                   {membersCount.toLocaleString()}
                 </div>
-                <div className="text-sm text-text-secondary">members strong</div>
+                <div className="text-xs sm:text-sm text-text-secondary">members strong</div>
               </div>
             </div>
           </div>
