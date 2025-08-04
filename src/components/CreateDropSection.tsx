@@ -20,7 +20,13 @@ const CreateDropSection = ({ onDropCreated }: CreateDropSectionProps) => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [userProfile, setUserProfile] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<{
+    user_id: string;
+    display_name?: string;
+    avatar_url?: string;
+    created_at?: string;
+    updated_at?: string;
+  } | null>(null);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
   const [showIntroCard, setShowIntroCard] = useState(true);
 

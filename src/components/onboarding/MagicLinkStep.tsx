@@ -222,7 +222,7 @@ const LoginStep = ({ onNext, onClose }: LoginStepProps) => {
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder={loginMethod === "test" ? (process.env.NEXT_PUBLIC_TEST_USER_PASSWORD || "Enter test password") : "Enter your password"}
+                placeholder={loginMethod === "test" ? (import.meta.env.VITE_TEST_USER_PASSWORD || "Enter test password") : "Enter your password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={cn(
@@ -394,9 +394,9 @@ const LoginStep = ({ onNext, onClose }: LoginStepProps) => {
               Test Accounts (Development Only)
             </p>
             <div className="space-y-1 text-xs text-muted-foreground">
-              <p>{process.env.NEXT_PUBLIC_TEST_USER_EMAIL || 'testuser@example.com'} / {process.env.NEXT_PUBLIC_TEST_USER_PASSWORD || 'Set in env'}</p>
-              <p>{process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL || 'admin@test.com'} / {process.env.NEXT_PUBLIC_ADMIN_USER_PASSWORD || 'Set in env'}</p>
-              <p>{process.env.NEXT_PUBLIC_DEMO_USER_EMAIL || 'demo@demo.com'} / {process.env.NEXT_PUBLIC_DEMO_USER_PASSWORD || 'Set in env'}</p>
+              <p>{import.meta.env.VITE_TEST_USER_EMAIL || 'testuser@example.com'} / {import.meta.env.VITE_TEST_USER_PASSWORD || 'Set in env'}</p>
+              <p>{import.meta.env.VITE_ADMIN_USER_EMAIL || 'admin@test.com'} / {import.meta.env.VITE_ADMIN_USER_PASSWORD || 'Set in env'}</p>
+              <p>{import.meta.env.VITE_DEMO_USER_EMAIL || 'demo@demo.com'} / {import.meta.env.VITE_DEMO_USER_PASSWORD || 'Set in env'}</p>
             </div>
           </div>
         </div>

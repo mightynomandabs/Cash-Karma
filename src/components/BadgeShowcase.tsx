@@ -21,7 +21,7 @@ interface Achievement {
   id: string;
   name: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   category: 'karma' | 'social' | 'milestone' | 'special';
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
   unlocked: boolean;

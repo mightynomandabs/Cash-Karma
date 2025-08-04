@@ -16,11 +16,11 @@ interface AuthContextType {
 // Test user credentials (in a real app, these would be in environment variables)
 const TEST_USERS = [
   {
-    username: process.env.NEXT_PUBLIC_TEST_USER_EMAIL || 'testuser@example.com',
-    password: process.env.NEXT_PUBLIC_TEST_USER_PASSWORD,
+    username: import.meta.env.VITE_TEST_USER_EMAIL || 'testuser@example.com',
+    password: import.meta.env.VITE_TEST_USER_PASSWORD,
     user: {
       id: 'test-user-1',
-      email: process.env.NEXT_PUBLIC_TEST_USER_EMAIL || 'testuser@example.com',
+      email: import.meta.env.VITE_TEST_USER_EMAIL || 'testuser@example.com',
       name: 'Test User',
       avatar_url: null,
       created_at: new Date().toISOString(),
@@ -28,11 +28,11 @@ const TEST_USERS = [
     }
   },
   {
-    username: process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL || 'admin@test.com',
-    password: process.env.NEXT_PUBLIC_ADMIN_USER_PASSWORD,
+    username: import.meta.env.VITE_ADMIN_USER_EMAIL || 'admin@test.com',
+    password: import.meta.env.VITE_ADMIN_USER_PASSWORD,
     user: {
       id: 'test-admin-1',
-      email: process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL || 'admin@test.com',
+      email: import.meta.env.VITE_ADMIN_USER_EMAIL || 'admin@test.com',
       name: 'Admin User',
       avatar_url: null,
       created_at: new Date().toISOString(),
@@ -40,11 +40,11 @@ const TEST_USERS = [
     }
   },
   {
-    username: process.env.NEXT_PUBLIC_DEMO_USER_EMAIL || 'demo@demo.com',
-    password: process.env.NEXT_PUBLIC_DEMO_USER_PASSWORD,
+    username: import.meta.env.VITE_DEMO_USER_EMAIL || 'demo@demo.com',
+    password: import.meta.env.VITE_DEMO_USER_PASSWORD,
     user: {
       id: 'test-demo-1',
-      email: process.env.NEXT_PUBLIC_DEMO_USER_EMAIL || 'demo@demo.com',
+      email: import.meta.env.VITE_DEMO_USER_EMAIL || 'demo@demo.com',
       name: 'Demo User',
       avatar_url: null,
       created_at: new Date().toISOString(),
@@ -173,8 +173,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Set the test user as authenticated
       setUser(testUser.user)
       setSession({
-        access_token: process.env.NEXT_PUBLIC_TEST_ACCESS_TOKEN || 'test-access-token',
-        refresh_token: process.env.NEXT_PUBLIC_TEST_REFRESH_TOKEN || 'test-refresh-token',
+        access_token: import.meta.env.VITE_TEST_ACCESS_TOKEN || 'test-access-token',
+        refresh_token: import.meta.env.VITE_TEST_REFRESH_TOKEN || 'test-refresh-token',
         expires_in: 3600,
         token_type: 'bearer',
         user: testUser.user

@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Image optimization utilities
 export interface OptimizedImageProps {
   src: string;
