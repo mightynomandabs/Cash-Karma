@@ -1,0 +1,9 @@
+# Handle client-side routing
+/*    /index.html   200
+
+# Specific redirects for auth callback
+/auth/callback    /index.html   200
+/dashboard    /index.html   200
+/wallet    /index.html   200
+/testing    /index.html   200
+/performance    /index.html   200 
