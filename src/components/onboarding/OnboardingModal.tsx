@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LoginStep from "./MagicLinkStep";
@@ -108,6 +108,10 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
           "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]"
         )}
       >
+        {/* Accessibility elements - hidden but required */}
+        <DialogTitle className="sr-only">{getStepTitle()}</DialogTitle>
+        <DialogDescription className="sr-only">{getStepDescription()}</DialogDescription>
+
         {/* Custom Close Button */}
         <Button
           variant="ghost"
